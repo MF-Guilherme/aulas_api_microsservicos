@@ -97,7 +97,7 @@ def corredor_por_id(id):
 def deletar_corredor_por_id(id):
     url = f"http://127.0.0.1:5000/corredores/{id}"
     
-    if requests.delete(url, json=id).status_code == 404:
+    if requests.delete(url).status_code == 404:
         return "corredor não encontrado"
     return "Corredor deletado"
 
@@ -111,3 +111,12 @@ def deletar_corredor_por_id(id):
 # o tempo atual do corredor. O tempo deverá ser menor
 # do que o tempo atual, caso contrário, o servidor
 # lançará um erro, que você deve tratar
+
+def atualizar_tempo(id, novo_tempo):
+    url = f"http://127.0.0.1:5000/corredores/{id}"
+    requisicao = requests.put(url, json={"tempo": novo_tempo})
+    if requisicao.status_code == 400:
+        return "Não atualizado. Para atualizar o tempo deverá ser menor que o tempo atual."
+    elif requisicao.status_code == 404:
+        return "Corredor não encontrado"
+    return "ok"
